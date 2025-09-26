@@ -1,0 +1,115 @@
+<div class="container">
+  <!-- Datos personales -->
+  <header class="header">
+    <h1>Sistema de Procesamiento de Notas</h1>
+    <div class="personal-info">
+      <p><strong>Nombre:</strong> {{ nombreCompleto }}</p>
+      <p><strong>Carné:</strong> {{ numeroCarne }}</p>
+    </div>
+  </header>
+
+  <!-- Formulario -->
+  <div class="form-section">
+    <h2>Ingreso de Notas</h2>
+    <div>
+      <div class="form-group">
+        <label for="notas">
+          Ingrese las notas (0-100) separadas por coma:
+        </label>
+        <textarea
+          id="notas"
+          name="notas"
+          [(ngModel)]="notasInput"
+          placeholder="Ejemplo: 85, 90, 75, 88, 92"
+          rows="3"></textarea>
+        <small class="help-text">
+          Ingrese números entre 0 y 100, separados por comas
+        </small>
+      </div>
+      
+      <div class="form-buttons">
+        <button type="button" class="btn btn-primary" (click)="procesarNotas()">
+          Calcular Estadísticas
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="limpiarFormulario()">
+          Limpiar
+        </button>
+      </div>
+    </div>
+
+    <!-- Error -->
+    <div *ngIf="error" class="error-message">
+      <i class="error-icon">⚠</i>
+      {{ error }}
+    </div>
+  </div>
+
+  <!-- Resultados -->
+  <div *ngIf="resultado" class="results-section">
+    <h2>Resultados del Análisis</h2>
+    
+    <div class="stats-grid">
+      <div class="stat-card promedio">
+        <div class="stat-icon">📊</div>
+        <div class="stat-content">
+          <h3>Promedio</h3>
+          <p class="stat-value">{{ resultado.promedio }}</p>
+        </div>
+      </div>
+
+      <div class="stat-card aprobados">
+        <div class="stat-icon">✅</div>
+        <div class="stat-content">
+          <h3>Aprobados</h3>
+          <p class="stat-value">{{ resultado.aprobados }}</p>
+          <small>de {{ resultado.totalNotas }} estudiantes</small>
+        </div>
+      </div>
+
+      <div class="stat-card reprobados">
+        <div class="stat-icon">❌</div>
+        <div class="stat-content">
+          <h3>Reprobados</h3>
+          <p class="stat-value">{{ resultado.reprobados }}</p>
+          <small>de {{ resultado.totalNotas }} estudiantes</small>
+        </div>
+      </div>
+
+      <div class="stat-card nota-alta">
+        <div class="stat-icon">🏆</div>
+        <div class="stat-content">
+          <h3>Nota Más Alta</h3>
+          <p class="stat-value">{{ resultado.notaMasAlta }}</p>
+        </div>
+      </div>
+
+      <div class="stat-card nota-baja">
+        <div class="stat-icon">📉</div>
+        <div class="stat-content">
+          <h3>Nota Más Baja</h3>
+          <p class="stat-value">{{ resultado.notaMasBaja }}</p>
+        </div>
+      </div>
+
+      <div class="stat-card porcentaje">
+        <div class="stat-icon">📈</div>
+        <div class="stat-content">
+          <h3>% Aprobación</h3>
+          <p class="stat-value">{{ ((resultado.aprobados / resultado.totalNotas) * 100) | number:'1.1-1' }}%</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Resumen adicional -->
+    <div class="summary">
+      <h3>Resumen</h3>
+      <ul>
+        <li>Se procesaron <strong>{{ resultado.totalNotas }}</strong> notas</li>
+        <li>El promedio general es <strong>{{ resultado.promedio }}</strong></li>
+        <li><strong>{{ resultado.aprobados }}</strong> estudiantes aprobaron (nota > 60)</li>
+        <li><strong>{{ resultado.reprobados }}</strong> estudiantes reprobaron (nota ≤ 60)</li>
+        <li>La diferencia entre la nota más alta y más baja es <strong>{{ resultado.notaMasAlta - resultado.notaMasBaja }}</strong> puntos</li>
+      </ul>
+    </div>
+  </div>
+</div>
